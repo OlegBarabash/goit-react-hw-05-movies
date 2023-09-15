@@ -1,27 +1,15 @@
-import { fetchTrending } from 'services/api';
+import { Home } from 'pages/Home';
+import { Layout } from './Layout/Layout';
+import { Route, Routes } from 'react-router-dom';
 
 export const App = () => {
-  const getTrending = async () => {
-    try {
-      const resp = await fetchTrending();
-      console.log('resp', resp);
-    } catch (error) {}
-  };
-
-  getTrending();
-
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      React homework template
+    <div>
+      <Routes>
+        <Route path="/trending/get-trending/" element={<Layout />}>
+          <Route index element={<Home />} />
+        </Route>
+      </Routes>
     </div>
   );
 };
