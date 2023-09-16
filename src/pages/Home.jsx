@@ -1,3 +1,4 @@
+import { MoviesList } from 'components/MoviesList/MoviesList';
 import { useEffect, useState } from 'react';
 import { fetchTrending } from 'services/api';
 
@@ -11,7 +12,6 @@ export const Home = () => {
         setLoading(true);
         const { results } = await fetchTrending();
         setTrending(results);
-        console.log('resp', results);
       } catch (error) {
         console.log('error', error);
       } finally {
@@ -25,13 +25,8 @@ export const Home = () => {
   return (
     <div>
       <h1>Trending today</h1>
-      <ul>
-        {trending.map(movie => (
-          <li key={movie.id}>
-            <a href="">{movie.title ?? movie.name}</a>
-          </li>
-        ))}
-      </ul>
+      {loading && <h2>Loading...</h2>}
+      <MoviesList moviesList={trending} />
     </div>
   );
 };
