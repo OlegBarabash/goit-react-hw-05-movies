@@ -10,7 +10,7 @@ import { fetchMovieDetails } from 'services/api';
 import { BsArrowLeft } from 'react-icons/bs';
 import { AddInfoDiv, MainInfoContainer } from './MovieDetails.styled';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieInfo, setMovieInfo] = useState(null);
   const location = useLocation();
@@ -80,3 +80,5 @@ export const MovieDetails = () => {
     </div>
   );
 };
+
+export default MovieDetails;

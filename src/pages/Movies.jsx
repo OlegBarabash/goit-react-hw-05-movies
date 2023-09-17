@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { fetchMovie } from 'services/api';
 
-export const Movies = () => {
+const Movies = () => {
   const [searchResoult, setSearchResoult] = useState([]);
   const [searching, setSearching] = useState(false);
 
@@ -46,3 +46,5 @@ export const Movies = () => {
     </>
   );
 };
+
+export default Movies;
