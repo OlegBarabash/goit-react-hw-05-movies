@@ -3,11 +3,6 @@ import { lazy } from 'react';
 import { Home } from 'pages/Home';
 import { Layout } from './Layout/Layout';
 
-// import { Movies } from 'pages/Movies';
-// import { MovieDetails } from 'pages/MovieDetails/MovieDetails';
-// import Cast from './Cast/Cast';
-// import Reviews from './Reviews/Reviews';
-
 const Cast = lazy(() => import('./Cast/Cast'));
 const Reviews = lazy(() => import('./Reviews/Reviews'));
 const Movies = lazy(() => import('pages/Movies'));
@@ -24,8 +19,8 @@ export const App = () => {
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
           </Route>
+          <Route path="*" element={<Navigate to="/" />} />
         </Route>
-        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
