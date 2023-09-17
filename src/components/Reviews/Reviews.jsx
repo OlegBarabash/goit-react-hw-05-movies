@@ -20,7 +20,20 @@ const Reviews = () => {
 
   return (
     <>
-      {!movieReviws ? (
+      {movieReviws &&
+        (!movieReviws.results.length ? (
+          <p>We don't hawe any reviews for this movie.</p>
+        ) : (
+          <ul>
+            {movieReviws.results.map(rev => (
+              <li key={rev.id}>
+                <h2>{rev.author}</h2>
+                <p>{rev.content}</p>
+              </li>
+            ))}
+          </ul>
+        ))}
+      {/* {!movieReviws ? (
         <p>We don't hawe any reviews for this movie.</p>
       ) : (
         <ul>
@@ -31,7 +44,7 @@ const Reviews = () => {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
     </>
   );
 };

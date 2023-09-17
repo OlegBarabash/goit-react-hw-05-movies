@@ -1,47 +1,48 @@
 import { MoviesList } from 'components/MoviesList/MoviesList';
-import { useState } from 'react';
+import SearchForm from 'components/SearchForm/SearchForm';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { fetchMovie } from 'services/api';
 
 export const Movies = () => {
   const [searchResoult, setSearchResoult] = useState([]);
-  const [movieName, setMovieName] = useState('');
+  const [searching, setSearching] = useState(false);
 
-  const searchMovie = async eve => {
-    eve.preventDefault();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const movieName = searchParams.get('name') ?? '';
 
-    try {
-      const { results } = await fetchMovie(movieName);
-      setSearchResoult(results);
-    } catch (error) {
-      console.log('error', error);
+  useEffect(() => {
+    const getMovieList = async () => {
+      try {
+        setSearching(false);
+        const { results } = await fetchMovie(movieName);
+        setSearchResoult(results);
+      } catch (error) {
+        console.log('error', error);
+      } finally {
+        setSearching(true);
+      }
+    };
+    if (movieName !== '') {
+      getMovieList();
     }
-    // try {
-    //   setLoading(true);
-    //   const { results } = await fetchMovie();
-    //   setSearchResoult(results);
-    //   console.log('resp', results);
-    // } catch (error) {
-    //   console.log('error', error);
-    // } finally {
-    //   setLoading(false);
-    // }
-  };
+  }, [movieName]);
 
-  const changeMovieName = name => {
-    console.log('name', name);
-    setMovieName(name);
+  const changeMovieName = eve => {
+    eve.preventDefault();
+    const name = eve.target[0].value;
+    const nextName = name !== '' ? { name } : {};
+    setSearchParams(nextName);
   };
 
   return (
     <>
-      <form onSubmit={searchMovie}>
-        <input
-          type="text"
-          onChange={evt => changeMovieName(evt.target.value)}
-        />
-        <button>Search</button>
-      </form>
-      <MoviesList moviesList={searchResoult} />
+      <SearchForm handlerSubmit={changeMovieName} />
+      {searching && searchResoult.length === 0 ? (
+        <p>No movies found!</p>
+      ) : (
+        <MoviesList moviesList={searchResoult} />
+      )}
     </>
   );
 };
